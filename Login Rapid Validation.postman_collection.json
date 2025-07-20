@@ -1,0 +1,678 @@
+{
+	"info": {
+		"_postman_id": "3d207495-b4e0-494b-bb5a-694dc82be851",
+		"name": "Login Rapid Validation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46903965",
+		"_collection_link": "https://qa-department-7226.postman.co/workspace/4f6ee074-4343-420b-a911-996e3dd42202/collection/46903965-3d207495-b4e0-494b-bb5a-694dc82be851?action=share&source=collection_link&creator=46903965"
+	},
+	"item": [
+		{
+			"name": "invalidlogin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body contains expected message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Your Username and Password is inccorect\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"{{invalidUser}}\",\n  \"password\": \" {{invalidPass}} \"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/invalidlogin",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"invalidlogin"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"{{invalidUser}}\",\n  \"password\": \" {{invalidPass}} \"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/invalidlogin",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"invalidlogin"
+							]
+						}
+					},
+					"code": 401,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\n   \n\"message\": \"Your Username and Password is inccorect\"\n  \n}"
+				}
+			]
+		},
+		{
+			"name": "error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body contains expected message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Username and Password is Required\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \" \",\n  \"password\": \"  \"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/error",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"error"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \" \",\n  \"password\": \"  \"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/error",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"error"
+							]
+						}
+					},
+					"code": 400,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\n  \n \"message\": \"Username and Password is Required\"\n  \n}"
+				}
+			]
+		},
+		{
+			"name": "loginMalformed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body contains expected error and status\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.error).to.eql(\"Username is malformed\");\r",
+							"    pm.expect(jsonData.status).to.eql(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"{{malformed}} \",\n  \"password\": \" {{malformedPass}} \"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/loginMalformed",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"loginMalformed"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"{{malformed}} \",\n  \"password\": \" {{malformedPass}} \"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/loginMalformed",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"loginMalformed"
+							]
+						}
+					},
+					"code": 400,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\n  \"error\": \"Username is malformed\",\n  \"status\": 400\n}"
+				}
+			]
+		},
+		{
+			"name": "serverError",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body contains expected error and message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.error).to.eql(\"Internal Server Error\");\r",
+							"    pm.expect(jsonData.message).to.eql(\"An unexpected error occurred on the server.\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": {{serverError}},\n  \"password\": {{serverErrorPass}}\n}"
+				},
+				"url": {
+					"raw": "{{url}}/serverError",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"serverError"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": {{serverError}},\n  \"password\": {{}}\n}"
+						},
+						"url": {
+							"raw": "{{url}}/serverError",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"serverError"
+							]
+						}
+					},
+					"code": 500,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\n \n \"error\": \"Internal Server Error\",\n  \"message\": \"An unexpected error occurred on the server.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "slowUserResponse",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body contains expected message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Login successful (slow response simulated)\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is acceptale (< 2000ms)\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"{{slowUser}}\",\n  \"password\": \"{{slowPassword}}\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/slowUserResponse",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"slowUserResponse"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"slow{{slowUser}}\",\n  \"password\": \"{{{{slowPassword}}}}\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/slowUserResponse",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"slowUserResponse"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\n  \n\"message\": \"Login successful (slow response simulated)\"\n  \n}"
+				}
+			]
+		},
+		{
+			"name": "successful",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body contains expected message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Login successful\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"{{validUserName}}\",\n  \"password\": \"{{validPassword}}\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/successful",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"successful"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"{{validUserName}}\",\n  \"password\": \"{{validPassword}}\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/successful",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"successful"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\n   \"message\": \"Login successful\"\n  \n}"
+				}
+			]
+		},
+		{
+			"name": "longInputs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 422\", function () {\r",
+							"    pm.response.to.have.status(422);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body contains expected message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Username should not exist 16 characters\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"{{longInputs}}\",\r\n  \"password\": \"{{validPassword}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/longInputs",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"longInputs"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "longInputs",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{longInputs}}\",\r\n  \"password\": \"{{validPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/longInputs",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"longInputs"
+							]
+						}
+					},
+					"status": "Unprocessable Content",
+					"code": 422,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\r\n  \r\n \"message\": \"Username should not exist 16 characters\"\r\n  \r\n}"
+				}
+			]
+		},
+		{
+			"name": "specialCharacterValidation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body contains expected message\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Special Character is not allowed\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"{{specialCharacter}}\",\r\n  \"password\": \"{{vavalidPasswordlid}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/specialCharacter",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"specialCharacter"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "New Request",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{specialCharacter}}\",\r\n  \"password\": \"{{vavalidPasswordlid}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/specialCharacter",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"specialCharacter"
+							]
+						}
+					},
+					"code": 400,
+					"_postman_previewlanguage": "",
+					"header": [],
+					"cookie": [
+						{
+							"expires": "Invalid Date"
+						}
+					],
+					"body": "{\r\n  \r\n \"message\": \"Special Character is not allowed\"\r\n  \r\n}"
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://426bbb6f-43f3-47e9-9d5d-b763773de9b9.mock.pstmn.io"
+		}
+	]
+}
